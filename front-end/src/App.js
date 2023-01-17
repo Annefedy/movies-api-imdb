@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/Login/Login.js";
-import Navbar from "./components/Navbar/Navbar.js";
-import Signup from "./pages/Signup/Signup.js";
-import Home from "./pages/Home/Home.js";
-import Watchlist from "./pages/Watchlist/Watchlist.js";
-import Profile from "./pages/Profile/Profile.js";
-import MovieItem from "./pages/MovieItem/MovieItem.js";
-import Logout from "./components/Logout/Logout.js";
-import SearchResult from "./pages/SearchResult/SearchResult.js";
-import SendResetEmail from "./pages/SendResetEmail/SendResetEmail.js";
-import ResetPassword from "./pages/ResetPassword/ResetPassword.js";
+import Navbar from "./components/Navbar/Navbar";
+import Signup from "./pages/Signup/Signup";
+import Home from "./pages/Home/Home";
+import Watchlist from "./pages/Watchlist/Watchlist";
+import Profile from "./pages/Profile/Profile";
+import MovieItem from "./pages/MovieItem/MovieItem";
+import Logout from "./components/Logout/Logout";
+import SearchResult from "./pages/SearchResult/SearchResult";
+import SendResetEmail from "./pages/SendResetEmail/SendResetEmail";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import keys from "../src/config/keys";
 import "./App.css";
 
@@ -18,9 +18,9 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   async function handleAuthentication() {
-    await fetch("http://localhost:9090/api/users/isloggedin", {
+    await fetch("http://localhost:7070/api/users/isloggedin", {
       credentials: "include",
-      headers: {
+      headers: { 
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -34,25 +34,25 @@ export default function App() {
   useEffect(() => {
     handleAuthentication();
   }, [isAuthenticated]);
+  
+  const CustomWrapper = ({ isAuthenticated, render: Component, ...props}) =>{
+    isAuthenticated ? (
+      <Component {...props} />
+    ) : (
+      <Navigate
+      to="/login"
+      replace
 
-  const PrivateRoute = ({ render: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              isAuthenticated,
-            }}
-          />
-        )
-      }
+      //state={{ location }}
     />
-  );
+    )
+  }
 
+  const PrivateRoute = ({ render: Component, ...rest }) => {
+    <Route  path = "*"
+    element={<CustomWrapper isAuthenticated={isAuthenticated}/> }
+    />
+  }
   return (
     <Router>
       <div className="App">
@@ -60,15 +60,17 @@ export default function App() {
           <Navbar isAuthenticated={isAuthenticated} />
         </header>
         <main>
-          <Switch>
-            <Route exact path="/" render={() => <Home keys={keys} />} />
-            <PrivateRoute
+          <Routes>
+            <Route exact element={<PrivateRoute/>} path="/" render={() => <Home keys={keys} />} />
+        
+            <Route
               path="/profile"
+              element={<PrivateRoute/>}
               render={() => (
                 <Profile keys={keys} setIsAuthenticated={setIsAuthenticated} />
               )}
             />
-            <PrivateRoute
+            <Route
               path="/watchlist"
               render={() => <Watchlist keys={keys} />}
             />
@@ -90,14 +92,15 @@ export default function App() {
               path="/login"
               render={() => <Login setIsAuthenticated={setIsAuthenticated} />}
             />
-            <Route path="/signup" component={Signup} />
-            <Route path="/forgotpassword" component={SendResetEmail} />
-            <Route path="/passwordreset/:id/:link" component={ResetPassword} />
+            
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgotpassword" element={<SendResetEmail/>} />
+            <Route path="/passwordreset/:id/:link" element={<ResetPassword/>} />
             <Route
               path="/logout"
               render={() => <Logout setIsAuthenticated={setIsAuthenticated} />}
             />
-          </Switch>
+          </Routes>
         </main>
       </div>
     </Router>

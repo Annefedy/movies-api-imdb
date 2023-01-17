@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 export default function Logout({ setIsAuthenticated }) {
-  const history = useHistory();
+  const history = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:7070/api/users/logout", {
@@ -14,10 +14,10 @@ export default function Logout({ setIsAuthenticated }) {
     }).then((res) => {
       if (res.ok) {
         setIsAuthenticated(false);
-        history.push("/");
+        history("sucess");
       }
     });
-  }, [history]);
+  }, [history, setIsAuthenticated]);
 
   return <></>;
 }

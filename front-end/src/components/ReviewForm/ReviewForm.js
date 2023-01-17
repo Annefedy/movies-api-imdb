@@ -10,6 +10,7 @@ export default function ReviewForm({ movieId, reviews, setReviews }) {
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleUserHasReview() {
     fetch("http://localhost:7070/api/review/hasreview/" + movieId, {
       headers: {
@@ -138,7 +139,7 @@ export default function ReviewForm({ movieId, reviews, setReviews }) {
 
   useEffect(() => {
     handleUserHasReview();
-  }, [movieId, hasReview]);
+  }, [movieId, hasReview, handleUserHasReview]);
 
   return (
     <div className="ReviewForm">
@@ -153,7 +154,8 @@ export default function ReviewForm({ movieId, reviews, setReviews }) {
               min="1"
               max="5"
               value={rating}
-              className="range"
+              // eslint-disable-next-line react/jsx-no-duplicate-props
+              classList='range'
               onChange={(e) => setRating(e.target.value)}
             />
             <span>{rating} stars</span>

@@ -13,6 +13,7 @@ app.use(
   cors({
    origin: ["http://localhost:7070", "http://localhost:3000"],
    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+   credentials: true,
   })
 );
 const session = require("express-session");

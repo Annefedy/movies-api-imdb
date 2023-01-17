@@ -11,7 +11,7 @@ export default function Navbar({ isAuthenticated }) {
             <h3>Movies IMDB</h3>
           </li>
           <li>
-            <NavLink exact to="/" activeClassName="selected">
+            <NavLink exact to="/" className="selected">
               Home
             </NavLink>
           </li>
@@ -19,17 +19,17 @@ export default function Navbar({ isAuthenticated }) {
           {isAuthenticated ? (
             <>
               <li>
-                <NavLink to="/profile" activeClassName="selected">
+                <NavLink to="/profile" className="selected">
                   Profile
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/watchlist" activeClassName="selected">
+                <NavLink to="/watchlist" className="selected">
                   Watchlist
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/logout" activeClassName="selected">
+                <NavLink to="/logout" className="selected">
                   Log out
                 </NavLink>
               </li>
@@ -37,12 +37,12 @@ export default function Navbar({ isAuthenticated }) {
           ) : (
             <>
               <li>
-                <NavLink to="/login" activeClassName="selected">
+                <NavLink to="/login" className="selected">
                   Log in
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/signup" activeClassName="selected">
+                <NavLink to="/signup" className="selected">
                   Sign up
                 </NavLink>
               </li>

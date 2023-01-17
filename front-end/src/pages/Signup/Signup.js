@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 export default function Signup() {
@@ -8,12 +8,11 @@ export default function Signup() {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [error, setError] = useState("");
-  const history = useHistory();
+  const history = useNavigate();
 
   function register() {
     fetch("http://localhost:9090/api/users/register", {
       method: "POST",
-      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -27,7 +26,7 @@ export default function Signup() {
     })
       .then((res) => {
         if (res.ok) {
-          history.push("/login");
+          history("/login");
         } else {
           throw res;
         }

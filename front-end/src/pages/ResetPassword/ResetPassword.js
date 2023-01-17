@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./ResetPassword.css";
 
 export default function ResetPassword(props) {
@@ -8,7 +8,7 @@ export default function ResetPassword(props) {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const history = useHistory();
+  const history = useNavigate();
 
   function handlePasswordReset() {
     fetch("http://localhost:9090/api/users/passwordreset", {
@@ -29,7 +29,7 @@ export default function ResetPassword(props) {
         if (res.ok) {
           setSuccessMessage("Successfully updated password");
           setTimeout(() => {
-            history.push("/login");
+            history("/login");
           }, 2000);
         } else {
           throw res;

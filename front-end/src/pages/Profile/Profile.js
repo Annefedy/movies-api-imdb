@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import { SyncLoader } from "react-spinners";
 import "./Profile.css";
@@ -10,10 +10,10 @@ export default function Profile({ keys, setIsAuthenticated }) {
   const [isLoading, setIsLoading] = useState(true);
   const [movies, setMovies] = useState([]);
 
-  const history = useHistory();
+  const history = useNavigate();
 
   function getUserInfo() {
-    fetch("http://localhost:9090/api/users", {
+    fetch("http://localhost:7070/api/users", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -25,7 +25,7 @@ export default function Profile({ keys, setIsAuthenticated }) {
   }
 
   function deleteUser() {
-    fetch("http://localhost:9090/api/users", {
+    fetch("http://localhost:7070/api/users", {
       method: "DELETE",
       credentials: "include",
       headers: {
@@ -35,13 +35,14 @@ export default function Profile({ keys, setIsAuthenticated }) {
     }).then((res) => {
       if (res.ok) {
         setIsAuthenticated(false);
-        history.push("/");
+        history("/");
       } else {
         throw res;
       }
     });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getFavorites() {
     await fetch("http://localhost:9090/api/liked/", {
       headers: {
@@ -80,7 +81,7 @@ export default function Profile({ keys, setIsAuthenticated }) {
   }
 
   async function handleRemove(id) {
-    await fetch("http://localhost:9090/api/liked/" + id, {
+    await fetch("http://localhost:7070/api/liked/" + id, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -100,7 +101,7 @@ export default function Profile({ keys, setIsAuthenticated }) {
   useEffect(() => {
     getUserInfo();
     getFavorites();
-  }, []);
+  }, [getFavorites]);
 
   return (
     <div className="profile-container">

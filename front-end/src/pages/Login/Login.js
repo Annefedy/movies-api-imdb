@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
@@ -7,10 +7,10 @@ export default function Login({ setIsAuthenticated }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const history = useHistory();
+  const history = useNavigate();
 
   function login() {
-    fetch("http://localhost:9090/api/users/login", {
+    fetch("http://localhost:7070/api/users/login", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -25,7 +25,7 @@ export default function Login({ setIsAuthenticated }) {
       .then((res) => {
         if (res.ok) {
           setIsAuthenticated(true);
-          history.push("/");
+          history("/");
         } else {
           throw res;
         }

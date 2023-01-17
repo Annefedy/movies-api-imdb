@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import inception from "../../images/inception.png";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import { SyncLoader } from "react-spinners";
@@ -13,8 +13,9 @@ export default function Home({ keys }) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const history = useHistory();
+  const history = useNavigate();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function fetchPopularMovies() {
     fetch(
       `https://api.themoviedb.org/3/movie/popular?api_key=${keys.apiKey}&language=en-US&page=1`
@@ -30,6 +31,7 @@ export default function Home({ keys }) {
       });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function fetchTopRatedMovies() {
     fetch(
       `https://api.themoviedb.org/3/movie/top_rated?api_key=${keys.apiKey}&language=en-US&page=1&region=US`
@@ -45,6 +47,7 @@ export default function Home({ keys }) {
       });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function fetchUpcomingMovies() {
     fetch(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${keys.apiKey}&language=en-US&page=1`
@@ -64,7 +67,7 @@ export default function Home({ keys }) {
     if (!query) {
       setError("you need to enter a value");
     } else {
-      history.push("/search/" + query);
+      history("/search/" + query);
     }
   }
 
@@ -72,7 +75,7 @@ export default function Home({ keys }) {
     fetchPopularMovies();
     fetchTopRatedMovies();
     fetchUpcomingMovies();
-  }, []);
+  }, [fetchPopularMovies, fetchTopRatedMovies, fetchUpcomingMovies, history]);
 
   return (
     <div className="Home">

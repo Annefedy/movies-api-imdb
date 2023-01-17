@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import noPoster from "../../images/no-poster.png";
@@ -18,8 +18,9 @@ export default function MovieItem({ isAuthenticated, keys, match, location }) {
   const [isInFavorite, setIsInFavorite] = useState(false);
   const [likeId, setLikeId] = useState(null);
   const [watchListId, setWatchListId] = useState(null);
-  const history = useHistory();
+  const history = useNavigate();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function fetchMovieById() {
     const movieId = match.params.id;
     fetch(
@@ -29,7 +30,7 @@ export default function MovieItem({ isAuthenticated, keys, match, location }) {
         if (res.ok) {
           return res.json();
         } else {
-          return history.push("/");
+          return history("/");
         }
       })
       .then((data) => {
@@ -56,6 +57,7 @@ export default function MovieItem({ isAuthenticated, keys, match, location }) {
       });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleIsInWatchList() {
     const movieId = match.params.id;
     fetch("http://localhost:9090/api/watch/hasWatchLink/" + movieId, {
@@ -80,6 +82,7 @@ export default function MovieItem({ isAuthenticated, keys, match, location }) {
       });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleIsInFavorites() {
     const movieId = match.params.id;
     fetch("http://localhost:9090/api/liked/isLiked/" + movieId, {
@@ -176,7 +179,7 @@ export default function MovieItem({ isAuthenticated, keys, match, location }) {
     fetchMovieById();
     handleIsInWatchList();
     handleIsInFavorites();
-  }, [location]);
+  }, [fetchMovieById, handleIsInFavorites, handleIsInWatchList, location]);
 
   return (
     <div className="MovieItem">
