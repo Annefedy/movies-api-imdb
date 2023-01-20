@@ -1,0 +1,108 @@
+.Home h2 {
+    margin-left: 20px;
+}
+
+.Home input {
+    outline: none;
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+    font-size: 1.1em;
+    color: rgba(0,0,0,0.5);
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+
+.Home form {
+    width: 80%;
+    position: relative;
+}
+
+.Home form button {
+    height: 46px;
+    width: 100px;
+    padding: 10px 26px;
+    border: none;
+    border-radius: 30px;
+    position: absolute;
+    top: 0;
+    right: -1px;
+    color: rgba(255,255,255, 1);
+    background: rgb(99, 164, 195);
+}
+
+
+.home-header {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.inner-home-header {
+    background: linear-gradient(to right, rgb(99, 164, 195) 150px, rgba(58, 42, 146, 0.7) 100%);
+    height: 100%;
+
+    display: grid;
+    align-items: center;
+}
+
+.inner-home-header h1 {
+    font-size: 60px;
+}
+
+.inner-home-header p {
+    font-size: 25px;
+}
+
+.inner-home-header div {
+    margin-left: 20px;
+}
+
+.movie-list {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    overflow-x: scroll;
+    column-gap: 10px;
+    margin: 20px;
+    padding: 2px;
+}
+
+.movie-list img {
+    width: 200px;
+}
+
+.movie {
+    display: grid;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 200px;
+    background: white;
+}
+
+.movie h3 {
+    font-size: 16px;
+    text-align: center;
+}
+
+.movie-info {
+    padding: 5px;
+}
+
+.favorite-list .movie-info button, .watch-list .movie-info button {
+    background: rgb(99, 164, 195);
+    color: white;
+    border: none;
+    min-width: 100px;
+}
+
+.poster-container {
+    border-radius: 10px 10px 0px 0px;
+    width: 200px;
+    height: 300px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
