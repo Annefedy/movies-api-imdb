@@ -144,7 +144,7 @@ router.delete("/", async (req, res) => {
 // editar usuário
 router.put("/:id", async (req, res) => {
   if (req.session.user) {
-    const updateUser = await User.query().deleteById(req.session.user.id);
+    const updateUser = await User.query().updateById(req.session.user.id);
     if (updateUser) {
       req.session.update();
       return res.status(200).send({ response: "Atualização de usuário bem-sucedida" });
