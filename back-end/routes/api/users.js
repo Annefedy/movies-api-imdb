@@ -39,7 +39,7 @@ router.post("/register", async (req, res, next) => {
   const { username, email, password, confirm_password } = req.body;
 
   if (!username || !email || !password || !confirm_password) {
-    return res.status(400).send({ response: "missing fields" });
+    return res.status(400).send({ response: "campos ausentes" });
   }
 
   if (password && password.length < 8) {
@@ -143,17 +143,23 @@ router.delete("/", async (req, res) => {
 
 // editar usuário
 router.put("/:id", async (req, res) => {
-  if (req.session.user) {
-    const updateUser = await User.query().updateById(req.session.user.id);
-    if (updateUser) {
-      req.session.update();
-      return res.status(200).send({ response: "Atualização de usuário bem-sucedida" });
-    } else {
-      return res.status(404).send({ response: "não foi possível atualizar o usuário" });
-    }
-  } 
+  const user = await User.findById(req.session.user.id);
+  if (user) {
+    user.username = req.body.name || user.username;
+    user.email = req.body.email || user.email
+    const updateUser = await user.save();
+    res.json({
+      id: updateUser.id,
+      username: updateUser.username,
+      email: updateUser.email
+    })
+  }else {
+    res.status(404).json({
+      sucess: false,
+      msg: "não foi possível atualizar o usuário" 
+  });
+  }
 });
-
 
 // forgot password request
 router.post("/forgotpassword", async (req, res) => {
